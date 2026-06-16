@@ -1,0 +1,105 @@
+// ============================================================
+//  DashLayers — list view "table"
+//  The header row is prepended inside .result, so we card .result.
+// ============================================================
+
+.frappe-list {
+	// the list becomes a rounded, elevated card
+	.result {
+		border-radius: 14px;
+		overflow: hidden;
+		background: color-mix(in srgb, var(--dl-accent) 14%, var(--border-color)) !important;
+		box-shadow: 0 8px 30px color-mix(in srgb, var(--dl-accent) 10%, transparent);
+	}
+
+	// header row — accent-tinted, accent labels
+	.result .list-row-head {
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--dl-accent) 13%, #ffffff),
+			color-mix(in srgb, var(--dl-accent) 7%, #ffffff)
+		) !important;
+		border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 16%, transparent) !important;
+		border-radius: 0 !important;
+		// match height
+		min-height: 42px;
+		height: 42px;
+
+		.list-row-col,
+		.list-subject,
+		.list-row-col span,
+		.list-subject span {
+			color: var(--dl-accent) !important;
+			font-weight: 600 !important;
+		}
+		.level-right {
+			background: linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--dl-accent) 13%, #ffffff),
+				color-mix(in srgb, var(--dl-accent) 7%, #ffffff)
+			) !important;
+			min-height: 42px;
+			height: 42px;
+		}
+	}
+
+	// data rows — taller, clear borders + accent hover wash
+	.result .list-row:not(.list-row-head) {
+		min-height: 50px;
+		align-items: center;
+		border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 18%, var(--border-color)) !important;
+		transition: background-color 0.15s ease;
+
+		.level-left,
+		.level-right {
+			padding-top: 13px;
+			padding-bottom: 13px;
+			background-color: transparent !important;
+		}
+
+		&:hover {
+			background-color: color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+
+			.level-right {
+				background-color: color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+				box-shadow: -8px 0 10px color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+			}
+		}
+	}
+
+	// the "N of M" count
+	.list-count {
+		color: var(--dl-ink-soft);
+	}
+}
+
+// themed checkboxes (custom-painted, so override the checked state)
+input[type="checkbox"]:checked,
+input.list-row-checkbox:checked,
+input.list-header-checkbox:checked {
+	background-color: var(--dl-accent) !important;
+	background-image:
+		url("data:image/svg+xml,<svg viewBox='0 0 8 7' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M1 4.00001L2.66667 5.80001L7 1.20001' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"),
+		linear-gradient(180deg, var(--dl-accent), var(--dl-accent-2)) !important;
+	background-size: 57%, 100% !important;
+}
+input[type="checkbox"]:focus {
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--dl-accent) 35%, transparent) !important;
+}
+
+// pagination / page-length controls
+.list-paging-area {
+	.btn-group,
+	.page-length {
+		border-radius: 8px;
+	}
+	.btn-group {
+		border-color: color-mix(in srgb, var(--dl-accent) 16%, var(--border-color)) !important;
+	}
+	.btn-paging.btn-info,
+	.page-length.btn-info {
+		background-color: color-mix(in srgb, var(--dl-accent) 14%, #ffffff) !important;
+		color: var(--dl-accent) !important;
+		font-weight: 600;
+	}
+}

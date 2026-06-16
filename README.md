@@ -66,26 +66,46 @@ Then hard-refresh the browser (`Cmd/Ctrl + Shift + R`).
 - Your choice is saved in the browser and carries across all desk pages and the login screen.
 
 To change the default theme, edit the `DEFAULT_THEME` constant in
-`dashlayers/public/js/dashlayers.js`.
+`dashlayers/public/js/dashlayers.bundle.js` (then rebuild).
 
 ## 🧩 How it works
 
-DashLayers ships two static assets and wires them through `hooks.py`:
+DashLayers ships two **bundled** assets (SCSS + JS, compiled by Frappe's esbuild pipeline) and wires them through `hooks.py`:
 
 ```python
 # desk pages
-app_include_css = "/assets/dashlayers/css/dashlayers.css"
-app_include_js  = "/assets/dashlayers/js/dashlayers.js"
+app_include_css = "dashlayers.bundle.css"
+app_include_js  = "dashlayers.bundle.js"
 
 # website pages (e.g. login)
-web_include_css = "/assets/dashlayers/css/dashlayers.css"
-web_include_js  = "/assets/dashlayers/js/dashlayers.js"
+web_include_css = "dashlayers.bundle.css"
+web_include_js  = "dashlayers.bundle.js"
 ```
 
-| File | Role |
+The styling is authored in SCSS and split into small, focused partials for easy maintenance:
+
+```
+dashlayers/public/scss/
+├─ dashlayers.bundle.scss      # entry — @imports the partials in order
+└─ dashlayers/
+   ├─ _mixins.scss             # shared helpers (dl-glass, dl-icon-tiles, dl-stagger, …)
+   ├─ _themes.scss             # one dl-theme() mixin → all palettes as CSS variables
+   ├─ _animations.scss         # keyframes + reduced-motion
+   ├─ _springboard.scss        # the /desk launcher
+   ├─ _modal.scss              # folder / apps popup
+   ├─ _chrome.scss             # sidebar + page header + buttons
+   ├─ _list.scss               # list-view "table"
+   ├─ _switcher.scss           # floating theme switcher
+   └─ _login.scss              # login / auth pages
+
+dashlayers/public/js/
+└─ dashlayers.bundle.js        # applies the theme + injects greeting & switcher
+```
+
+| Asset | Role |
 | --- | --- |
-| `dashlayers/public/css/dashlayers.css` | All theme styling. Theme palettes live in `:root` / `html[data-dashlayer="…"]` blocks as CSS variables; every rule is scoped (e.g. `.desktop-wrapper`, `.desktop-modal`, `.frappe-list`, `.for-login`) so unrelated areas are never touched. |
-| `dashlayers/public/js/dashlayers.js` | Applies the saved theme to `<html data-dashlayer>` before paint, injects the greeting header and the theme switcher on the springboard, and re-runs on SPA navigation. |
+| `scss/dashlayers.bundle.scss` (+ partials) | All theme styling. Palettes are emitted by the `dl-theme()` mixin into `:root` / `html[data-dashlayer="…"]` as CSS variables; every rule is scoped (e.g. `.desktop-wrapper`, `.desktop-modal`, `.frappe-list`, `.for-login`) so unrelated areas are never touched. |
+| `js/dashlayers.bundle.js` | Applies the saved theme to `<html data-dashlayer>` before paint, injects the greeting header and the theme switcher on the springboard, and re-runs on SPA navigation. |
 
 The active theme is just an attribute on the root element:
 
@@ -95,13 +115,17 @@ The active theme is just an attribute on the root element:
 
 No DocTypes, no scheduled jobs, no server-side overrides — uninstalling the app removes all of it.
 
+> Because the CSS is a compiled bundle, style changes require a rebuild. During development run `bench watch` (auto-recompiles on save); for a one-off use `bench build --app dashlayers`.
+
 ## 🛠️ Customizing / adding a theme
 
-1. Open `dashlayers/public/css/dashlayers.css`.
-2. Copy an existing palette block (e.g. `html[data-dashlayer="aurora"] { … }`) and rename the selector to your theme, e.g. `html[data-dashlayer="ocean"]`.
-3. Adjust the CSS variables (`--dl-bg`, `--dl-accent`, `--dl-accent-2`, `--dl-grad-1…6`, etc.).
-4. Register the theme name in the `THEMES` array (and add a matching `.dl-swatch[data-theme="ocean"]` swatch color) in `dashlayers/public/js/dashlayers.js` and the CSS.
+1. Open `dashlayers/public/scss/dashlayers/_themes.scss`.
+2. Copy an existing palette block (e.g. the `html[data-dashlayer="aurora"]` one) and give it a new `data-dashlayer` name, e.g. `html[data-dashlayer="ocean"]`.
+3. In the `@include dl-theme(...)` call, set `$accent`, `$accent2`, `$ink`, `$ink-soft`, the `$bg` gradient, the six `$grads` pairs, and `$scheme: dark` for a dark theme. (Glass/navbar/shadow tokens are derived from the accent automatically.)
+4. Register the theme name in the `THEMES` array in `dashlayers/public/js/dashlayers.bundle.js`, and add a matching `&[data-theme="ocean"]` swatch color in `dashlayers/public/scss/dashlayers/_switcher.scss`.
 5. Run `bench build --app dashlayers && bench --site <site> clear-cache`, then hard-refresh.
+
+To change the default theme, edit the `DEFAULT_THEME` constant in `dashlayers/public/js/dashlayers.bundle.js`.
 
 ## 🤝 Contributing
 

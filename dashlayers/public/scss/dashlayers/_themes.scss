@@ -1,0 +1,94 @@
+// ============================================================
+//  DashLayers — theme palettes
+//
+//  Every theme is emitted from one mixin: pass the accent pair,
+//  ink colors, the background gradient and the six icon-tile
+//  gradient pairs. Glass/navbar/shadow tokens are derived from
+//  the accent automatically (light vs. dark scheme).
+//
+//  To add a theme: copy a block below, change the values, give it
+//  a new `data-dashlayer` name, then register it in dashlayers.js
+//  and add a swatch color in _switcher.scss.
+// ============================================================
+
+@mixin dl-theme($accent, $accent2, $ink, $ink-soft, $bg, $grads, $scheme: light) {
+	--dl-bg: #{unquote($bg)};
+	--dl-ink: #{$ink};
+	--dl-ink-soft: #{$ink-soft};
+	--dl-accent: #{$accent};
+	--dl-accent-2: #{$accent2};
+	--dl-glow: #{rgba($accent, 0.5)};
+
+	@if $scheme == dark {
+		--dl-tile-bg: rgba(255, 255, 255, 0.07);
+		--dl-tile-border: rgba(255, 255, 255, 0.14);
+		--dl-tile-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+		--dl-tile-hover-shadow: 0 20px 46px #{rgba($accent, 0.5)};
+		--dl-navbar-bg: rgba(13, 18, 38, 0.55);
+		--dl-navbar-border: rgba(255, 255, 255, 0.08);
+		--dl-search-bg: rgba(255, 255, 255, 0.08);
+	} @else {
+		--dl-tile-bg: rgba(255, 255, 255, 0.55);
+		--dl-tile-border: rgba(255, 255, 255, 0.85);
+		--dl-tile-shadow: 0 8px 24px #{rgba($accent, 0.14)}, inset 0 1px 0 rgba(255, 255, 255, 0.9);
+		--dl-tile-hover-shadow: 0 18px 40px #{rgba($accent, 0.28)};
+		--dl-navbar-bg: rgba(255, 255, 255, 0.55);
+		--dl-navbar-border: rgba(255, 255, 255, 0.72);
+		--dl-search-bg: rgba(255, 255, 255, 0.6);
+	}
+
+	@for $i from 1 through length($grads) {
+		$pair: nth($grads, $i);
+		--dl-grad-#{$i}: linear-gradient(135deg, #{nth($pair, 1)}, #{nth($pair, 2)});
+	}
+}
+
+// ---- Aurora (default) -------------------------------------------------
+:root,
+html[data-dashlayer="aurora"] {
+	@include dl-theme(
+		$accent: #6366f1,
+		$accent2: #ec4899,
+		$ink: #1e1b4b,
+		$ink-soft: #4c4878,
+		$bg: "radial-gradient(1200px 800px at 12% -8%, #c7d2fe 0%, transparent 55%), radial-gradient(1000px 700px at 92% 4%, #fbcfe8 0%, transparent 55%), radial-gradient(900px 900px at 78% 96%, #bae6fd 0%, transparent 55%), radial-gradient(900px 700px at 8% 100%, #ddd6fe 0%, transparent 55%), linear-gradient(160deg, #f5f7ff 0%, #eef2ff 45%, #fdf2f8 100%)",
+		$grads: ((#6366f1, #8b5cf6), (#ec4899, #f43f5e), (#06b6d4, #3b82f6), (#10b981, #22d3ee), (#f59e0b, #ef4444), (#8b5cf6, #ec4899))
+	);
+}
+
+// ---- Midnight (dark) --------------------------------------------------
+html[data-dashlayer="midnight"] {
+	@include dl-theme(
+		$scheme: dark,
+		$accent: #818cf8,
+		$accent2: #f0abfc,
+		$ink: #f1f5ff,
+		$ink-soft: #aab4d4,
+		$bg: "radial-gradient(1100px 800px at 15% -10%, #1e3a8a 0%, transparent 55%), radial-gradient(1000px 700px at 90% 0%, #6d28d9 0%, transparent 50%), radial-gradient(900px 900px at 80% 100%, #0e7490 0%, transparent 55%), linear-gradient(160deg, #0b1020 0%, #0f172a 50%, #131033 100%)",
+		$grads: ((#6366f1, #a855f7), (#f43f5e, #ec4899), (#0ea5e9, #6366f1), (#10b981, #06b6d4), (#f59e0b, #f43f5e), (#a855f7, #ec4899))
+	);
+}
+
+// ---- Sunset -----------------------------------------------------------
+html[data-dashlayer="sunset"] {
+	@include dl-theme(
+		$accent: #f97316,
+		$accent2: #e11d48,
+		$ink: #7c2d12,
+		$ink-soft: #9a543b,
+		$bg: "radial-gradient(1100px 800px at 12% -8%, #fed7aa 0%, transparent 55%), radial-gradient(1000px 700px at 92% 4%, #fecaca 0%, transparent 55%), radial-gradient(900px 900px at 80% 98%, #fbcfe8 0%, transparent 55%), linear-gradient(160deg, #fff7ed 0%, #fff1f2 50%, #fef2f2 100%)",
+		$grads: ((#f97316, #ef4444), (#ec4899, #f43f5e), (#f59e0b, #f97316), (#fb7185, #f59e0b), (#ef4444, #d946ef), (#f43f5e, #fb923c))
+	);
+}
+
+// ---- Forest -----------------------------------------------------------
+html[data-dashlayer="forest"] {
+	@include dl-theme(
+		$accent: #059669,
+		$accent2: #0d9488,
+		$ink: #064e3b,
+		$ink-soft: #2f6f5e,
+		$bg: "radial-gradient(1100px 800px at 14% -8%, #bbf7d0 0%, transparent 55%), radial-gradient(1000px 700px at 90% 2%, #a7f3d0 0%, transparent 55%), radial-gradient(900px 900px at 82% 98%, #99f6e4 0%, transparent 55%), linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdfa 100%)",
+		$grads: ((#059669, #10b981), (#0d9488, #06b6d4), (#22c55e, #84cc16), (#14b8a6, #22d3ee), (#84cc16, #eab308), (#10b981, #0ea5e9))
+	);
+}

@@ -1,0 +1,30 @@
+// ============================================================
+//  DashLayers — Desk Theme  (compiled bundle)
+//
+//  A drop-in, multi-theme visual overlay for the Frappe desk.
+//  Edit the partials in ./dashlayers/ — this file just wires
+//  them together in the right order:
+//
+//    mixins      → shared helpers (must come first)
+//    themes      → CSS-variable palettes per data-dashlayer
+//    animations  → keyframes + reduced-motion
+//    springboard → the /desk launcher
+//    modal       → folder / apps popup
+//    chrome      → sidebar + page header + buttons
+//    list        → list-view "table"
+//    switcher    → floating theme switcher
+//    login       → login / auth pages
+//
+//  Themes:  aurora (default) · midnight · sunset · forest
+//  Switched by setting `data-dashlayer` on <html> (see dashlayers.js).
+// ============================================================
+
+@import "dashlayers/mixins";
+@import "dashlayers/themes";
+@import "dashlayers/animations";
+@import "dashlayers/springboard";
+@import "dashlayers/modal";
+@import "dashlayers/chrome";
+@import "dashlayers/list";
+@import "dashlayers/switcher";
+@import "dashlayers/login";

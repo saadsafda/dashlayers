@@ -1,0 +1,85 @@
+// ============================================================
+//  DashLayers — desk chrome (sidebar + page header + buttons)
+//  Normal desk pages. Surfaces stay light for readability; only
+//  the accent hue follows the active theme. The springboard hides
+//  the sidebar and page-head, so these never touch the launcher.
+// ============================================================
+
+// ---- Left sidebar ----
+.body-sidebar {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--dl-accent) 9%, #ffffff) 0%,
+		#ffffff 55%
+	) !important;
+	border-right: 1px solid color-mix(in srgb, var(--dl-accent) 16%, transparent) !important;
+
+	// workspace switcher icon → theme gradient
+	.sidebar-header .sidebar-item-icon {
+		background: linear-gradient(135deg, var(--dl-accent), var(--dl-accent-2)) !important;
+		border-radius: 10px;
+		box-shadow: 0 4px 12px color-mix(in srgb, var(--dl-accent) 30%, transparent);
+	}
+	.sidebar-header .header-title {
+		font-weight: 700;
+	}
+
+	// nav item hover
+	.standard-sidebar-item:not(.active-sidebar):has(a:not(.section-break)):hover {
+		background: color-mix(in srgb, var(--dl-accent) 9%, transparent) !important;
+		border-radius: 8px;
+	}
+
+	// active nav item — accent tint + glow + left rail
+	.active-sidebar {
+		background: color-mix(in srgb, var(--dl-accent) 14%, #ffffff) !important;
+		box-shadow: 0 4px 14px color-mix(in srgb, var(--dl-accent) 22%, transparent) !important;
+		border-radius: 8px;
+
+		& > .item-anchor,
+		.sidebar-item-label {
+			color: var(--dl-accent) !important;
+			font-weight: 600;
+		}
+		.sidebar-item-icon svg,
+		.sidebar-item-icon use {
+			color: var(--dl-accent) !important;
+			stroke: var(--dl-accent) !important;
+		}
+		&::before {
+			content: "";
+			position: absolute;
+			left: 2px;
+			top: 7px;
+			bottom: 7px;
+			width: 3px;
+			border-radius: 3px;
+			background: linear-gradient(var(--dl-accent), var(--dl-accent-2));
+		}
+	}
+}
+
+// ---- Page header ----
+.page-head {
+	background: color-mix(in srgb, var(--dl-accent) 6%, #ffffff) !important;
+	border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 14%, transparent) !important;
+	box-shadow: 0 2px 14px color-mix(in srgb, var(--dl-accent) 9%, transparent);
+}
+
+// ---- Primary buttons (Add, Save …) → theme gradient ----
+.btn-primary,
+.page-actions .btn-primary {
+	background: linear-gradient(135deg, var(--dl-accent), var(--dl-accent-2)) !important;
+	border: none !important;
+	color: #ffffff !important;
+	box-shadow: 0 4px 12px color-mix(in srgb, var(--dl-accent) 30%, transparent) !important;
+	transition: box-shadow 0.2s ease, filter 0.2s ease;
+
+	&:hover {
+		filter: brightness(1.06);
+		box-shadow: 0 6px 18px color-mix(in srgb, var(--dl-accent) 42%, transparent) !important;
+	}
+	&:active {
+		filter: brightness(0.97);
+	}
+}

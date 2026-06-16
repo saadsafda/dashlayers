@@ -1,0 +1,174 @@
+// ============================================================
+//  DashLayers — the /desk springboard (launcher)
+//  Everything here is scoped to .desktop-wrapper.
+// ============================================================
+
+.desktop-wrapper {
+	min-height: 100vh;
+	background: var(--dl-bg) fixed;
+	background-attachment: fixed;
+	color: var(--dl-ink);
+
+	// ---- frosted navbar ----
+	.desktop-navbar,
+	.navbar-container {
+		background: var(--dl-navbar-bg);
+		-webkit-backdrop-filter: saturate(180%) blur(18px);
+		backdrop-filter: saturate(180%) blur(18px);
+		border-bottom: 1px solid var(--dl-navbar-border);
+		box-shadow: 0 4px 24px rgba(31, 27, 75, 0.06);
+	}
+	.desktop-navbar .nav-link,
+	.desktop-avatar,
+	.desktop-search-icon > .icon {
+		color: var(--dl-ink-soft);
+	}
+
+	// ---- search pill ----
+	.desktop-navbar-modal-search {
+		background: var(--dl-search-bg);
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		border: 1px solid var(--dl-navbar-border);
+		border-radius: 999px;
+		height: 36px;
+		transition: box-shadow 0.2s ease, outline-color 0.2s ease;
+
+		&:hover,
+		&:focus-within {
+			outline: 2px solid var(--dl-glow) !important;
+			box-shadow: 0 6px 20px var(--dl-glow);
+		}
+	}
+	.desktop-search-wrapper span {
+		color: var(--dl-ink-soft);
+	}
+
+	// ---- icon grid ----
+	.icons-container {
+		max-width: 1120px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.icons {
+		gap: 22px;
+	}
+
+	// each launcher item
+	.desktop-icon {
+		border-radius: 24px;
+		transition: transform 0.25s $dl-ease;
+		animation: dl-pop-in 0.5s $dl-ease both;
+
+		&:hover {
+			transform: translateY(-6px);
+		}
+	}
+
+	// staggered entrance (0.02s base, 0.04s step)
+	@include dl-stagger(0.02s, 0.04s, 9);
+
+	// shared glass icon tiles + gradients + hover
+	@include dl-icon-tiles;
+
+	// page indicator dots
+	.page-indicator {
+		background: color-mix(in srgb, var(--dl-ink) 25%, transparent);
+	}
+	.active-page {
+		background: var(--dl-accent) !important;
+	}
+
+	// ---- folders ----
+	.folder-icon {
+		background: var(--dl-tile-bg) !important;
+		border: 1px solid var(--dl-tile-border);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+		box-shadow: var(--dl-tile-shadow);
+	}
+
+	// Folder thumbnails are a *mini* icon grid — keep them compact.
+	// The big-tile styling above must not leak in or the grid breaks.
+	.folder-icon .icon-container {
+		width: var(--folder-thumbnail-icon-height) !important;
+		height: var(--folder-thumbnail-icon-height) !important;
+		min-width: 0 !important;
+		min-height: 0 !important;
+		padding: 0 !important;
+		border-radius: 4px !important;
+		background: var(--surface-gray-3) !important;
+		border: none !important;
+		box-shadow: none !important;
+		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none !important;
+		transform: none !important;
+
+		.icon,
+		svg {
+			width: 5px !important;
+			height: 5px !important;
+		}
+		img {
+			width: var(--folder-thumbnail-icon-height) !important;
+			height: var(--folder-thumbnail-icon-height) !important;
+			border-radius: 3px !important;
+		}
+	}
+	.folder-icon .desktop-icon:hover .icon-container,
+	.folder-icon .icon-container:hover {
+		transform: none !important;
+		box-shadow: none !important;
+	}
+
+	// add-new-icon (edit mode)
+	.add-new-icon {
+		border-color: var(--dl-tile-border) !important;
+	}
+
+	// scrollbars
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: color-mix(in srgb, var(--dl-accent) 45%, transparent);
+		border-radius: 999px;
+	}
+
+	// tuck the grid up beneath the greeting when present
+	&:has(.dl-greeting) .icons-container {
+		margin-top: 6px;
+	}
+}
+
+// containers that host the springboard → transparent
+.main-section:has(.desktop-wrapper),
+.page-container:has(.desktop-wrapper),
+.layout-main-section:has(.desktop-wrapper) {
+	background: transparent !important;
+}
+
+// ---- greeting header (injected by dashlayers.js) ----
+.dl-greeting {
+	max-width: 1080px;
+	margin: 28px auto -8px;
+	padding: 0 26px;
+	text-align: center;
+	animation: dl-fade-down 0.6s $dl-ease both;
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+		@include dl-gradient-text;
+	}
+	p {
+		margin: 4px 0 0;
+		font-size: 0.95rem;
+		color: var(--dl-ink-soft);
+		font-weight: 500;
+	}
+}

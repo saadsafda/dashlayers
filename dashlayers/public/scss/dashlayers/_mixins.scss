@@ -1,0 +1,102 @@
+// ============================================================
+//  DashLayers — shared mixins
+// ============================================================
+
+// Standard easing used throughout the theme
+$dl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+// Frosted-glass surface (tile / panel)
+@mixin dl-glass($radius: 18px) {
+	background: var(--dl-tile-bg);
+	border: 1px solid var(--dl-tile-border);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--dl-tile-shadow);
+	border-radius: $radius;
+}
+
+// The 6-up rotating gradient assignment for svg-icon tiles.
+// Include inside a `.desktop-wrapper {}` or `.desktop-modal {}` scope.
+@mixin dl-icon-gradient-tiles {
+	@for $i from 1 through 6 {
+		$nth: if($i == 6, "6n", "6n+#{$i}");
+		.desktop-icon:nth-child(#{$nth}) .icon-container:has(.icon) {
+			background: var(--dl-grad-#{$i});
+		}
+	}
+}
+
+// Complete icon-tile treatment shared by the springboard and the
+// folder modal (both render `.desktop-icon > .icon-container`).
+@mixin dl-icon-tiles {
+	.icon-container {
+		width: 62px;
+		height: 62px;
+		@include dl-glass(18px);
+		transition: transform 0.25s $dl-ease, box-shadow 0.25s ease;
+		overflow: visible;
+	}
+
+	// svg-icon tiles → vivid gradients + white glyphs
+	.icon-container:has(.icon) {
+		border: none;
+		color: #fff;
+	}
+	@include dl-icon-gradient-tiles;
+	.icon-container:has(.icon) .icon,
+	.icon-container:has(.icon) svg {
+		color: #fff;
+		stroke: #fff;
+	}
+	.icon-container:has(.icon) use {
+		stroke: #fff;
+	}
+
+	// app-logo tiles keep their logo on a soft glass plate
+	.icon-container:has(.app-logo) {
+		background: var(--dl-tile-bg);
+		padding: 8px;
+	}
+	.icon-container img {
+		width: 100%;
+		height: 100%;
+		border-radius: 12px;
+		object-fit: contain;
+	}
+
+	// hover lift + colored glow
+	.desktop-icon:hover .icon-container,
+	.icon-container:hover {
+		transform: translateY(-2px) scale(1.06);
+		box-shadow: var(--dl-tile-hover-shadow);
+	}
+
+	.icon-title {
+		color: var(--dl-ink);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+	.icon-subtitle {
+		color: var(--dl-ink-soft);
+	}
+}
+
+// Staggered entrance delays for a grid of `.desktop-icon`s.
+@mixin dl-stagger($base: 0.02s, $step: 0.04s, $max: 9) {
+	@for $i from 1 through $max {
+		.icons > .desktop-icon:nth-child(#{$i}) {
+			animation-delay: $base + ($step * ($i - 1));
+		}
+	}
+	.icons > .desktop-icon:nth-child(n + #{$max + 1}) {
+		animation-delay: $base + ($step * $max);
+	}
+}
+
+// Gradient text (accent → accent-2 by default)
+@mixin dl-gradient-text($from: var(--dl-accent), $to: var(--dl-accent-2)) {
+	background: linear-gradient(120deg, #{$from}, #{$to});
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}

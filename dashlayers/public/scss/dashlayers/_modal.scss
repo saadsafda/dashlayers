@@ -1,0 +1,52 @@
+// ============================================================
+//  DashLayers — the folder / apps modal
+//  Rendered on <body> (outside .desktop-wrapper), so it carries
+//  its own scope. Theme variables live on :root and apply here.
+// ============================================================
+
+// dim + blur the backdrop so the popup pops
+.modal-backdrop.show {
+	background: rgba(20, 16, 50, 0.45);
+}
+
+.desktop-modal {
+	-webkit-backdrop-filter: saturate(140%) blur(8px);
+	backdrop-filter: saturate(140%) blur(8px);
+
+	// the frosted panel
+	.modal-content {
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02)),
+			var(--dl-tile-bg) !important;
+		-webkit-backdrop-filter: saturate(180%) blur(26px);
+		backdrop-filter: saturate(180%) blur(26px);
+		border: 1px solid var(--dl-tile-border) !important;
+		border-radius: 28px !important;
+		box-shadow: 0 30px 80px rgba(20, 16, 50, 0.4),
+			inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+		animation: dl-modal-in 0.34s $dl-ease both;
+	}
+
+	// breathing room in the grid
+	.desktop-modal-body .icons {
+		gap: 6px 4px;
+	}
+
+	// shared glass icon tiles
+	@include dl-icon-tiles;
+
+	// staggered entrance for the modal icons
+	.icons > .desktop-icon {
+		animation: dl-pop-in 0.45s $dl-ease both;
+	}
+	@include dl-stagger(0.04s, 0.04s, 8);
+}
+
+// the floating title above the panel ("Framework")
+.desktop-modal-heading .modal-title,
+.desktop-modal .modal-heading {
+	font-weight: 800 !important;
+	letter-spacing: -0.01em;
+	@include dl-gradient-text(#ffffff, var(--dl-accent-2));
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+}
