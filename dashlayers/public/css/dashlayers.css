@@ -1,0 +1,851 @@
+/* ============================================================
+   DashLayers — Desk Theme
+   Elevates the Frappe "Desktop" springboard (/desk) with a
+   modern glass + gradient look. Themes are switched by setting
+   the `data-dashlayer` attribute on <html> (see dashlayers.js).
+
+   Themes:  aurora (default) · midnight · sunset · forest
+   Scope:   everything is anchored to .desktop-wrapper so the
+            rest of the desk (forms, lists, reports) is untouched.
+   ============================================================ */
+
+/* ----------  Theme palettes  ---------- */
+:root,
+html[data-dashlayer="aurora"] {
+	--dl-bg:
+		radial-gradient(1200px 800px at 12% -8%, #c7d2fe 0%, transparent 55%),
+		radial-gradient(1000px 700px at 92% 4%, #fbcfe8 0%, transparent 55%),
+		radial-gradient(900px 900px at 78% 96%, #bae6fd 0%, transparent 55%),
+		radial-gradient(900px 700px at 8% 100%, #ddd6fe 0%, transparent 55%),
+		linear-gradient(160deg, #f5f7ff 0%, #eef2ff 45%, #fdf2f8 100%);
+	--dl-ink: #1e1b4b;
+	--dl-ink-soft: #4c4878;
+	--dl-tile-bg: rgba(255, 255, 255, 0.55);
+	--dl-tile-border: rgba(255, 255, 255, 0.85);
+	--dl-tile-shadow: 0 8px 24px rgba(79, 70, 229, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	--dl-tile-hover-shadow: 0 18px 40px rgba(79, 70, 229, 0.28);
+	--dl-navbar-bg: rgba(255, 255, 255, 0.55);
+	--dl-navbar-border: rgba(255, 255, 255, 0.7);
+	--dl-search-bg: rgba(255, 255, 255, 0.6);
+	--dl-accent: #6366f1;
+	--dl-accent-2: #ec4899;
+	--dl-glow: rgba(99, 102, 241, 0.45);
+	--dl-grad-1: linear-gradient(135deg, #6366f1, #8b5cf6);
+	--dl-grad-2: linear-gradient(135deg, #ec4899, #f43f5e);
+	--dl-grad-3: linear-gradient(135deg, #06b6d4, #3b82f6);
+	--dl-grad-4: linear-gradient(135deg, #10b981, #22d3ee);
+	--dl-grad-5: linear-gradient(135deg, #f59e0b, #ef4444);
+	--dl-grad-6: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+html[data-dashlayer="midnight"] {
+	--dl-bg:
+		radial-gradient(1100px 800px at 15% -10%, #1e3a8a 0%, transparent 55%),
+		radial-gradient(1000px 700px at 90% 0%, #6d28d9 0%, transparent 50%),
+		radial-gradient(900px 900px at 80% 100%, #0e7490 0%, transparent 55%),
+		linear-gradient(160deg, #0b1020 0%, #0f172a 50%, #131033 100%);
+	--dl-ink: #f1f5ff;
+	--dl-ink-soft: #aab4d4;
+	--dl-tile-bg: rgba(255, 255, 255, 0.07);
+	--dl-tile-border: rgba(255, 255, 255, 0.14);
+	--dl-tile-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+	--dl-tile-hover-shadow: 0 20px 46px rgba(99, 102, 241, 0.5);
+	--dl-navbar-bg: rgba(13, 18, 38, 0.55);
+	--dl-navbar-border: rgba(255, 255, 255, 0.08);
+	--dl-search-bg: rgba(255, 255, 255, 0.08);
+	--dl-accent: #818cf8;
+	--dl-accent-2: #f0abfc;
+	--dl-glow: rgba(129, 140, 248, 0.6);
+	--dl-grad-1: linear-gradient(135deg, #6366f1, #a855f7);
+	--dl-grad-2: linear-gradient(135deg, #f43f5e, #ec4899);
+	--dl-grad-3: linear-gradient(135deg, #0ea5e9, #6366f1);
+	--dl-grad-4: linear-gradient(135deg, #10b981, #06b6d4);
+	--dl-grad-5: linear-gradient(135deg, #f59e0b, #f43f5e);
+	--dl-grad-6: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+html[data-dashlayer="sunset"] {
+	--dl-bg:
+		radial-gradient(1100px 800px at 12% -8%, #fed7aa 0%, transparent 55%),
+		radial-gradient(1000px 700px at 92% 4%, #fecaca 0%, transparent 55%),
+		radial-gradient(900px 900px at 80% 98%, #fbcfe8 0%, transparent 55%),
+		linear-gradient(160deg, #fff7ed 0%, #fff1f2 50%, #fef2f2 100%);
+	--dl-ink: #7c2d12;
+	--dl-ink-soft: #9a543b;
+	--dl-tile-bg: rgba(255, 255, 255, 0.55);
+	--dl-tile-border: rgba(255, 255, 255, 0.85);
+	--dl-tile-shadow: 0 8px 24px rgba(234, 88, 12, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	--dl-tile-hover-shadow: 0 18px 40px rgba(234, 88, 12, 0.3);
+	--dl-navbar-bg: rgba(255, 255, 255, 0.5);
+	--dl-navbar-border: rgba(255, 255, 255, 0.7);
+	--dl-search-bg: rgba(255, 255, 255, 0.6);
+	--dl-accent: #f97316;
+	--dl-accent-2: #e11d48;
+	--dl-glow: rgba(249, 115, 22, 0.45);
+	--dl-grad-1: linear-gradient(135deg, #f97316, #ef4444);
+	--dl-grad-2: linear-gradient(135deg, #ec4899, #f43f5e);
+	--dl-grad-3: linear-gradient(135deg, #f59e0b, #f97316);
+	--dl-grad-4: linear-gradient(135deg, #fb7185, #f59e0b);
+	--dl-grad-5: linear-gradient(135deg, #ef4444, #d946ef);
+	--dl-grad-6: linear-gradient(135deg, #f43f5e, #fb923c);
+}
+
+html[data-dashlayer="forest"] {
+	--dl-bg:
+		radial-gradient(1100px 800px at 14% -8%, #bbf7d0 0%, transparent 55%),
+		radial-gradient(1000px 700px at 90% 2%, #a7f3d0 0%, transparent 55%),
+		radial-gradient(900px 900px at 82% 98%, #99f6e4 0%, transparent 55%),
+		linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdfa 100%);
+	--dl-ink: #064e3b;
+	--dl-ink-soft: #2f6f5e;
+	--dl-tile-bg: rgba(255, 255, 255, 0.55);
+	--dl-tile-border: rgba(255, 255, 255, 0.85);
+	--dl-tile-shadow: 0 8px 24px rgba(5, 150, 105, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	--dl-tile-hover-shadow: 0 18px 40px rgba(5, 150, 105, 0.3);
+	--dl-navbar-bg: rgba(255, 255, 255, 0.5);
+	--dl-navbar-border: rgba(255, 255, 255, 0.7);
+	--dl-search-bg: rgba(255, 255, 255, 0.6);
+	--dl-accent: #059669;
+	--dl-accent-2: #0d9488;
+	--dl-glow: rgba(5, 150, 105, 0.4);
+	--dl-grad-1: linear-gradient(135deg, #059669, #10b981);
+	--dl-grad-2: linear-gradient(135deg, #0d9488, #06b6d4);
+	--dl-grad-3: linear-gradient(135deg, #22c55e, #84cc16);
+	--dl-grad-4: linear-gradient(135deg, #14b8a6, #22d3ee);
+	--dl-grad-5: linear-gradient(135deg, #84cc16, #eab308);
+	--dl-grad-6: linear-gradient(135deg, #10b981, #0ea5e9);
+}
+
+/* ============================================================
+   Background — paint the whole desktop canvas
+   ============================================================ */
+.desktop-wrapper {
+	min-height: 100vh;
+	background: var(--dl-bg) fixed;
+	background-attachment: fixed;
+	color: var(--dl-ink);
+}
+
+/* the page / main containers that hold the springboard */
+.main-section:has(.desktop-wrapper),
+.page-container:has(.desktop-wrapper),
+.layout-main-section:has(.desktop-wrapper) {
+	background: transparent !important;
+}
+
+/* ============================================================
+   Navbar — frosted glass
+   ============================================================ */
+.desktop-wrapper .desktop-navbar,
+.desktop-wrapper .navbar-container {
+	background: var(--dl-navbar-bg);
+	-webkit-backdrop-filter: saturate(180%) blur(18px);
+	backdrop-filter: saturate(180%) blur(18px);
+	border-bottom: 1px solid var(--dl-navbar-border);
+	box-shadow: 0 4px 24px rgba(31, 27, 75, 0.06);
+}
+
+.desktop-wrapper .desktop-navbar .nav-link,
+.desktop-wrapper .desktop-avatar,
+.desktop-wrapper .desktop-search-icon > .icon {
+	color: var(--dl-ink-soft);
+}
+
+/* search pill */
+.desktop-wrapper .desktop-navbar-modal-search {
+	background: var(--dl-search-bg);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	border: 1px solid var(--dl-navbar-border);
+	border-radius: 999px;
+	height: 36px;
+	transition: box-shadow 0.2s ease, outline-color 0.2s ease;
+}
+.desktop-wrapper .desktop-navbar-modal-search:hover,
+.desktop-wrapper .desktop-navbar-modal-search:focus-within {
+	outline: 2px solid var(--dl-glow) !important;
+	box-shadow: 0 6px 20px var(--dl-glow);
+}
+.desktop-wrapper .desktop-search-wrapper span {
+	color: var(--dl-ink-soft);
+}
+
+/* ============================================================
+   Greeting header (injected by dashlayers.js)
+   ============================================================ */
+.dl-greeting {
+	max-width: 1080px;
+	margin: 28px auto -8px;
+	padding: 0 26px;
+	text-align: center;
+	animation: dl-fade-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+	text-align: center;
+}
+.dl-greeting h1 {
+	margin: 0;
+	font-size: 2rem;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+	background: linear-gradient(120deg, var(--dl-accent), var(--dl-accent-2));
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.dl-greeting p {
+	margin: 4px 0 0;
+	font-size: 0.95rem;
+	color: var(--dl-ink-soft);
+	font-weight: 500;
+}
+
+/* ============================================================
+   The icon grid
+   ============================================================ */
+.desktop-wrapper .icons-container {
+	max-width: 1120px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* when the greeting is present, tuck the grid up beneath it */
+.desktop-wrapper:has(.dl-greeting) .icons-container {
+	margin-top: 6px;
+}
+
+.desktop-wrapper .icons {
+	gap: 22px;
+}
+
+/* each launcher item */
+.desktop-wrapper .desktop-icon {
+	border-radius: 24px;
+	transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+	animation: dl-pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.desktop-wrapper .desktop-icon:hover {
+	transform: translateY(-6px);
+}
+
+/* staggered entrance */
+.desktop-wrapper .icons > .desktop-icon:nth-child(1) { animation-delay: 0.02s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(2) { animation-delay: 0.06s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(3) { animation-delay: 0.10s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(4) { animation-delay: 0.14s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(5) { animation-delay: 0.18s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(6) { animation-delay: 0.22s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(7) { animation-delay: 0.26s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(8) { animation-delay: 0.30s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(9) { animation-delay: 0.34s; }
+.desktop-wrapper .icons > .desktop-icon:nth-child(n+10) { animation-delay: 0.38s; }
+
+/* the rounded icon tile (glass plate) */
+.desktop-wrapper .icon-container {
+	width: 62px;
+	height: 62px;
+	border-radius: 18px;
+	background: var(--dl-tile-bg);
+	border: 1px solid var(--dl-tile-border);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--dl-tile-shadow);
+	transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+		box-shadow 0.25s ease;
+	overflow: visible;
+}
+
+/* svg-icon tiles (apps without a logo image) get vivid gradients
+   varied by their position in the grid so the board feels alive */
+.desktop-wrapper .icon-container:has(.icon) {
+	border: none;
+	color: #fff;
+}
+.desktop-wrapper .desktop-icon:nth-child(6n+1) .icon-container:has(.icon) { background: var(--dl-grad-1); }
+.desktop-wrapper .desktop-icon:nth-child(6n+2) .icon-container:has(.icon) { background: var(--dl-grad-2); }
+.desktop-wrapper .desktop-icon:nth-child(6n+3) .icon-container:has(.icon) { background: var(--dl-grad-3); }
+.desktop-wrapper .desktop-icon:nth-child(6n+4) .icon-container:has(.icon) { background: var(--dl-grad-4); }
+.desktop-wrapper .desktop-icon:nth-child(6n+5) .icon-container:has(.icon) { background: var(--dl-grad-5); }
+.desktop-wrapper .desktop-icon:nth-child(6n)   .icon-container:has(.icon) { background: var(--dl-grad-6); }
+
+.desktop-wrapper .icon-container:has(.icon) .icon,
+.desktop-wrapper .icon-container:has(.icon) svg {
+	color: #fff;
+	stroke: #fff;
+}
+.desktop-wrapper .icon-container:has(.icon) use {
+	stroke: #fff;
+}
+
+/* app-logo tiles: keep the logo but give it a soft glass plate too */
+.desktop-wrapper .icon-container:has(.app-logo) {
+	background: var(--dl-tile-bg);
+	padding: 8px;
+}
+.desktop-wrapper .icon-container:has(.app-logo) img,
+.desktop-wrapper .icon-container img {
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	object-fit: contain;
+}
+
+/* hover: lift the tile + colored glow */
+.desktop-wrapper .desktop-icon:hover .icon-container {
+	transform: translateY(-2px) scale(1.06);
+	box-shadow: var(--dl-tile-hover-shadow);
+}
+/* neutralise the core's scale-on-hover so ours wins cleanly */
+.desktop-wrapper .icon-container:hover {
+	transform: translateY(-2px) scale(1.06);
+}
+
+/* captions */
+.desktop-wrapper .icon-title {
+	color: var(--dl-ink);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+.desktop-wrapper .icon-subtitle {
+	color: var(--dl-ink-soft);
+}
+
+/* page indicator dots */
+.desktop-wrapper .page-indicator {
+	background: color-mix(in srgb, var(--dl-ink) 25%, transparent);
+}
+.desktop-wrapper .active-page {
+	background: var(--dl-accent) !important;
+}
+
+/* folders */
+.desktop-wrapper .folder-icon {
+	background: var(--dl-tile-bg) !important;
+	border: 1px solid var(--dl-tile-border);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--dl-tile-shadow);
+}
+
+/* Folder thumbnails are a *mini* icon grid — keep them compact.
+   The big-tile glass/gradient/hover styling above must NOT leak into
+   the icons rendered inside a folder, or the mini grid breaks. */
+.desktop-wrapper .folder-icon .icon-container {
+	width: var(--folder-thumbnail-icon-height) !important;
+	height: var(--folder-thumbnail-icon-height) !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	padding: 0 !important;
+	border-radius: 4px !important;
+	background: var(--surface-gray-3) !important;
+	border: none !important;
+	box-shadow: none !important;
+	-webkit-backdrop-filter: none !important;
+	backdrop-filter: none !important;
+	transform: none !important;
+}
+.desktop-wrapper .folder-icon .icon-container .icon,
+.desktop-wrapper .folder-icon .icon-container svg {
+	width: 5px !important;
+	height: 5px !important;
+}
+.desktop-wrapper .folder-icon .icon-container img {
+	width: var(--folder-thumbnail-icon-height) !important;
+	height: var(--folder-thumbnail-icon-height) !important;
+	border-radius: 3px !important;
+}
+/* no hover lift on the mini icons inside a folder */
+.desktop-wrapper .folder-icon .desktop-icon:hover .icon-container,
+.desktop-wrapper .folder-icon .icon-container:hover {
+	transform: none !important;
+	box-shadow: none !important;
+}
+
+/* add-new-icon (edit mode) */
+.desktop-wrapper .add-new-icon {
+	border-color: var(--dl-tile-border) !important;
+}
+
+/* ============================================================
+   The "open folder / apps" modal
+   (rendered on <body>, OUTSIDE .desktop-wrapper, so it needs
+   its own themed selectors — variables live on :root/html so
+   they are available here too)
+   ============================================================ */
+
+/* dim + blur the backdrop so the popup pops */
+.modal-backdrop.show {
+	background: rgba(20, 16, 50, 0.45);
+}
+.desktop-modal {
+	-webkit-backdrop-filter: saturate(140%) blur(8px);
+	backdrop-filter: saturate(140%) blur(8px);
+}
+
+/* the frosted panel */
+.desktop-modal .modal-content {
+	background:
+		linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02)),
+		var(--dl-tile-bg) !important;
+	-webkit-backdrop-filter: saturate(180%) blur(26px);
+	backdrop-filter: saturate(180%) blur(26px);
+	border: 1px solid var(--dl-tile-border) !important;
+	border-radius: 28px !important;
+	box-shadow: 0 30px 80px rgba(20, 16, 50, 0.4),
+		inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+	animation: dl-modal-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* the floating title above the panel ("Framework") */
+.desktop-modal-heading .modal-title,
+.desktop-modal .modal-heading {
+	font-weight: 800 !important;
+	letter-spacing: -0.01em;
+	background: linear-gradient(120deg, #ffffff, var(--dl-accent-2));
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* breathing room in the grid */
+.desktop-modal .desktop-modal-body .icons {
+	gap: 6px 4px;
+}
+
+/* themed icon tiles inside the modal — mirror the springboard look */
+.desktop-modal .icon-container {
+	width: 62px;
+	height: 62px;
+	border-radius: 18px;
+	background: var(--dl-tile-bg);
+	border: 1px solid var(--dl-tile-border);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--dl-tile-shadow);
+	transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+	overflow: visible;
+}
+.desktop-modal .icon-container:has(.icon) {
+	border: none;
+	color: #fff;
+}
+.desktop-modal .desktop-icon:nth-child(6n+1) .icon-container:has(.icon) { background: var(--dl-grad-1); }
+.desktop-modal .desktop-icon:nth-child(6n+2) .icon-container:has(.icon) { background: var(--dl-grad-2); }
+.desktop-modal .desktop-icon:nth-child(6n+3) .icon-container:has(.icon) { background: var(--dl-grad-3); }
+.desktop-modal .desktop-icon:nth-child(6n+4) .icon-container:has(.icon) { background: var(--dl-grad-4); }
+.desktop-modal .desktop-icon:nth-child(6n+5) .icon-container:has(.icon) { background: var(--dl-grad-5); }
+.desktop-modal .desktop-icon:nth-child(6n)   .icon-container:has(.icon) { background: var(--dl-grad-6); }
+.desktop-modal .icon-container:has(.icon) .icon,
+.desktop-modal .icon-container:has(.icon) svg {
+	color: #fff;
+	stroke: #fff;
+}
+.desktop-modal .icon-container:has(.app-logo) {
+	background: var(--dl-tile-bg);
+	padding: 8px;
+}
+.desktop-modal .icon-container img {
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	object-fit: contain;
+}
+.desktop-modal .desktop-icon:hover .icon-container,
+.desktop-modal .icon-container:hover {
+	transform: translateY(-2px) scale(1.06);
+	box-shadow: var(--dl-tile-hover-shadow);
+}
+.desktop-modal .icon-title {
+	color: var(--dl-ink);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+.desktop-modal .icon-subtitle {
+	color: var(--dl-ink-soft);
+}
+
+/* staggered entrance for the modal icons */
+.desktop-modal .icons > .desktop-icon {
+	animation: dl-pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.desktop-modal .icons > .desktop-icon:nth-child(1) { animation-delay: 0.04s; }
+.desktop-modal .icons > .desktop-icon:nth-child(2) { animation-delay: 0.08s; }
+.desktop-modal .icons > .desktop-icon:nth-child(3) { animation-delay: 0.12s; }
+.desktop-modal .icons > .desktop-icon:nth-child(4) { animation-delay: 0.16s; }
+.desktop-modal .icons > .desktop-icon:nth-child(5) { animation-delay: 0.20s; }
+.desktop-modal .icons > .desktop-icon:nth-child(6) { animation-delay: 0.24s; }
+.desktop-modal .icons > .desktop-icon:nth-child(7) { animation-delay: 0.28s; }
+.desktop-modal .icons > .desktop-icon:nth-child(8) { animation-delay: 0.32s; }
+.desktop-modal .icons > .desktop-icon:nth-child(n+9) { animation-delay: 0.36s; }
+
+/* ============================================================
+   Desk chrome — sidebar + page header (normal desk pages)
+   The springboard hides both the sidebar and the page-head, so
+   these rules never touch the launcher. Surfaces stay light for
+   readability; only the accent hue follows the active theme.
+   ============================================================ */
+
+/* ---- Left sidebar ---- */
+.body-sidebar {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--dl-accent) 9%, #ffffff) 0%,
+		#ffffff 55%
+	) !important;
+	border-right: 1px solid color-mix(in srgb, var(--dl-accent) 16%, transparent) !important;
+}
+
+/* workspace switcher (top) icon → theme gradient */
+.body-sidebar .sidebar-header .sidebar-item-icon {
+	background: linear-gradient(135deg, var(--dl-accent), var(--dl-accent-2)) !important;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px color-mix(in srgb, var(--dl-accent) 30%, transparent);
+}
+.body-sidebar .sidebar-header .header-title {
+	font-weight: 700;
+}
+
+/* nav item hover */
+.body-sidebar .standard-sidebar-item:not(.active-sidebar):has(a:not(.section-break)):hover {
+	background: color-mix(in srgb, var(--dl-accent) 9%, transparent) !important;
+	border-radius: 8px;
+}
+
+/* active nav item — accent tint + glow + left rail */
+.body-sidebar .active-sidebar {
+	background: color-mix(in srgb, var(--dl-accent) 14%, #ffffff) !important;
+	box-shadow: 0 4px 14px color-mix(in srgb, var(--dl-accent) 22%, transparent) !important;
+	border-radius: 8px;
+}
+.body-sidebar .active-sidebar > .item-anchor,
+.body-sidebar .active-sidebar .sidebar-item-label {
+	color: var(--dl-accent) !important;
+	font-weight: 600;
+}
+.body-sidebar .active-sidebar .sidebar-item-icon svg,
+.body-sidebar .active-sidebar .sidebar-item-icon use {
+	color: var(--dl-accent) !important;
+	stroke: var(--dl-accent) !important;
+}
+.body-sidebar .active-sidebar::before {
+	content: "";
+	position: absolute;
+	left: 2px;
+	top: 7px;
+	bottom: 7px;
+	width: 3px;
+	border-radius: 3px;
+	background: linear-gradient(var(--dl-accent), var(--dl-accent-2));
+}
+
+/* ---- Page header ---- */
+.page-head {
+	background: color-mix(in srgb, var(--dl-accent) 6%, #ffffff) !important;
+	border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 14%, transparent) !important;
+	box-shadow: 0 2px 14px color-mix(in srgb, var(--dl-accent) 9%, transparent);
+}
+
+/* ---- Primary buttons (Add, Save …) → theme gradient ---- */
+.btn-primary,
+.page-actions .btn-primary {
+	background: linear-gradient(135deg, var(--dl-accent), var(--dl-accent-2)) !important;
+	border: none !important;
+	color: #ffffff !important;
+	box-shadow: 0 4px 12px color-mix(in srgb, var(--dl-accent) 30%, transparent) !important;
+	transition: box-shadow 0.2s ease, filter 0.2s ease;
+}
+.btn-primary:hover,
+.page-actions .btn-primary:hover {
+	filter: brightness(1.06);
+	box-shadow: 0 6px 18px color-mix(in srgb, var(--dl-accent) 42%, transparent) !important;
+}
+.btn-primary:active {
+	filter: brightness(0.97);
+}
+
+/* ============================================================
+   List view "table" — themed card, header & rows
+   (the header row is prepended inside .result, so we card .result)
+   ============================================================ */
+
+/* the list becomes a rounded, elevated card */
+.frappe-list .result {
+	border-radius: 14px;
+	overflow: hidden;
+	background: color-mix(in srgb, var(--dl-accent) 14%, var(--border-color)) !important;
+	box-shadow: 0 8px 30px color-mix(in srgb, var(--dl-accent) 10%, transparent);
+}
+
+/* header row — accent-tinted, accent labels */
+.frappe-list .result .list-row-head {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--dl-accent) 13%, #ffffff),
+		color-mix(in srgb, var(--dl-accent) 7%, #ffffff)
+	) !important;
+	border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 16%, transparent) !important;
+	border-radius: 0 !important;
+}
+.frappe-list .result .list-row-head .list-row-col,
+.frappe-list .result .list-row-head .list-subject,
+.frappe-list .result .list-row-head .list-row-col span,
+.frappe-list .result .list-row-head .list-subject span {
+	color: var(--dl-accent) !important;
+	font-weight: 600 !important;
+}
+.frappe-list .result .list-row-head,
+.frappe-list .result .list-row-head .level-right {
+	background-color: transparent !important;
+}
+.frappe-list .result .list-row-head .level-right {
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--dl-accent) 13%, #ffffff),
+		color-mix(in srgb, var(--dl-accent) 7%, #ffffff)
+	) !important;
+}
+
+/* data rows — taller, clear borders + accent hover wash */
+.frappe-list .result .list-row:not(.list-row-head) {
+	min-height: 50px;
+	align-items: center;
+	border-bottom: 1px solid color-mix(in srgb, var(--dl-accent) 18%, var(--border-color)) !important;
+	transition: background-color 0.15s ease;
+}
+
+/* taller cells */
+.frappe-list .result .list-row:not(.list-row-head) .level-left,
+.frappe-list .result .list-row:not(.list-row-head) .level-right {
+	padding-top: 13px;
+	padding-bottom: 13px;
+	background-color: transparent !important;
+}
+.frappe-list .result .list-row:not(.list-row-head):hover {
+	background-color: color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+}
+.frappe-list .result .list-row:not(.list-row-head):hover .level-right {
+	background-color: color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+	box-shadow: -8px 0 10px color-mix(in srgb, var(--dl-accent) 8%, #ffffff) !important;
+}
+/* taller header to match */
+.frappe-list .result .list-row-head,
+.frappe-list .result .list-row-head .level-right {
+	min-height: 42px;
+	height: 42px;
+}
+
+/* themed checkboxes (custom-painted, so override the checked state) */
+input[type="checkbox"]:checked,
+input.list-row-checkbox:checked,
+input.list-header-checkbox:checked {
+	background-color: var(--dl-accent) !important;
+	background-image:
+		url("data:image/svg+xml,<svg viewBox='0 0 8 7' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M1 4.00001L2.66667 5.80001L7 1.20001' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"),
+		linear-gradient(180deg, var(--dl-accent), var(--dl-accent-2)) !important;
+	background-size: 57%, 100% !important;
+}
+input[type="checkbox"]:focus {
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--dl-accent) 35%, transparent) !important;
+}
+
+/* pagination / page-length controls */
+.list-paging-area .btn-group,
+.list-paging-area .page-length {
+	border-radius: 8px;
+}
+.list-paging-area .btn-group {
+	border-color: color-mix(in srgb, var(--dl-accent) 16%, var(--border-color)) !important;
+}
+.list-paging-area .btn-paging.btn-info,
+.list-paging-area .page-length.btn-info {
+	background-color: color-mix(in srgb, var(--dl-accent) 14%, #ffffff) !important;
+	color: var(--dl-accent) !important;
+	font-weight: 600;
+}
+
+/* the "N of M" count + like icons */
+.frappe-list .list-count {
+	color: var(--dl-ink-soft);
+}
+
+/* ============================================================
+   Floating theme switcher (injected by dashlayers.js)
+   ============================================================ */
+.dl-switcher {
+	position: fixed;
+	right: 22px;
+	bottom: 22px;
+	z-index: 1040;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 9px 12px;
+	border-radius: 999px;
+	background: var(--dl-navbar-bg);
+	border: 1px solid var(--dl-navbar-border);
+	-webkit-backdrop-filter: saturate(180%) blur(18px);
+	backdrop-filter: saturate(180%) blur(18px);
+	box-shadow: 0 10px 30px rgba(31, 27, 75, 0.18);
+	animation: dl-fade-up 0.5s ease both;
+}
+.dl-switcher .dl-switcher-label {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--dl-ink-soft);
+	padding-left: 4px;
+}
+.dl-swatch {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	cursor: pointer;
+	border: 2px solid rgba(255, 255, 255, 0.85);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+	padding: 0;
+}
+.dl-swatch:hover {
+	transform: scale(1.18);
+}
+.dl-swatch.active {
+	transform: scale(1.18);
+	box-shadow: 0 0 0 3px var(--dl-glow);
+}
+.dl-swatch[data-theme="aurora"]   { background: linear-gradient(135deg, #6366f1, #ec4899); }
+.dl-swatch[data-theme="midnight"] { background: linear-gradient(135deg, #0f172a, #6d28d9); }
+.dl-swatch[data-theme="sunset"]   { background: linear-gradient(135deg, #f97316, #e11d48); }
+.dl-swatch[data-theme="forest"]   { background: linear-gradient(135deg, #059669, #22d3ee); }
+
+/* ============================================================
+   Scrollbar polish (desktop only)
+   ============================================================ */
+.desktop-wrapper ::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.desktop-wrapper ::-webkit-scrollbar-thumb {
+	background: color-mix(in srgb, var(--dl-accent) 45%, transparent);
+	border-radius: 999px;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes dl-pop-in {
+	from { opacity: 0; transform: translateY(14px) scale(0.94); }
+	to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes dl-fade-up {
+	from { opacity: 0; transform: translateY(16px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dl-fade-down {
+	from { opacity: 0; transform: translateY(-14px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dl-modal-in {
+	from { opacity: 0; transform: translateY(18px) scale(0.96); }
+	to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.desktop-wrapper .desktop-icon,
+	.desktop-modal .desktop-icon,
+	.desktop-modal .modal-content,
+	.for-login .login-content,
+	.dl-greeting,
+	.dl-switcher {
+		animation: none !important;
+	}
+}
+
+/* ============================================================
+   Login / auth pages  (served via web_include_css)
+   Scoped to .for-login so other website pages stay untouched.
+   ============================================================ */
+
+/* full-viewport themed gradient backdrop */
+body:has(.for-login) {
+	background: var(--dl-bg) fixed !important;
+	background-attachment: fixed !important;
+}
+body:has(.for-login) .main-section,
+body:has(.for-login) .page_content,
+body:has(.for-login) #body,
+body:has(.for-login) main,
+section.for-login {
+	background: transparent !important;
+}
+
+/* logo + title above the card */
+.for-login .page-card-head h4 {
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	background: linear-gradient(120deg, var(--dl-accent), var(--dl-accent-2));
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+/* the card → frosted glass */
+.for-login .login-content.page-card {
+	background: var(--dl-tile-bg) !important;
+	-webkit-backdrop-filter: saturate(180%) blur(22px);
+	backdrop-filter: saturate(180%) blur(22px);
+	border: 1px solid var(--dl-tile-border) !important;
+	border-radius: 22px !important;
+	box-shadow: 0 30px 80px color-mix(in srgb, var(--dl-accent) 22%, transparent),
+		inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+	animation: dl-modal-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* inputs */
+.for-login .form-control {
+	border-radius: 10px !important;
+	border: 1px solid color-mix(in srgb, var(--dl-accent) 18%, transparent) !important;
+	background: rgba(255, 255, 255, 0.65) !important;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.for-login .form-control:focus {
+	border-color: var(--dl-accent) !important;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--dl-accent) 22%, transparent) !important;
+	background: #ffffff !important;
+}
+.for-login .field-icon,
+.for-login .field-icon use {
+	color: var(--dl-accent);
+	stroke: var(--dl-accent);
+}
+
+/* primary login button (gradient comes from global .btn-primary) */
+.for-login .btn-login,
+.for-login .btn-primary {
+	border-radius: 10px !important;
+	height: 44px;
+	font-weight: 600;
+}
+
+/* secondary option buttons (Email Link, social) */
+.for-login .btn-login-option,
+.for-login .btn-default {
+	border-radius: 10px !important;
+	border: 1px solid color-mix(in srgb, var(--dl-accent) 20%, transparent) !important;
+	background: rgba(255, 255, 255, 0.55) !important;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+.for-login .btn-login-option:hover,
+.for-login .btn-default:hover {
+	background: color-mix(in srgb, var(--dl-accent) 10%, #ffffff) !important;
+	border-color: var(--dl-accent) !important;
+}
+
+/* links + helpers */
+.for-login a,
+.for-login .toggle-password {
+	color: var(--dl-accent) !important;
+}
+.for-login .login-divider {
+	color: var(--dl-ink-soft);
+}

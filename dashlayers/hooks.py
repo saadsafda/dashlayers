@@ -25,12 +25,12 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/dashlayers/css/dashlayers.css"
-# app_include_js = "/assets/dashlayers/js/dashlayers.js"
+app_include_css = "/assets/dashlayers/css/dashlayers.css"
+app_include_js = "/assets/dashlayers/js/dashlayers.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/dashlayers/css/dashlayers.css"
-# web_include_js = "/assets/dashlayers/js/dashlayers.js"
+web_include_css = "/assets/dashlayers/css/dashlayers.css"
+web_include_js = "/assets/dashlayers/js/dashlayers.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "dashlayers/public/scss/website"
